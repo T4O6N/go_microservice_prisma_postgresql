@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/rabbitmq/amqp091-go"
 	"github.com/tonpcst/go-microservice-prisma-postgresql/database"
 	_ "github.com/tonpcst/go-microservice-prisma-postgresql/docs"
 	"github.com/tonpcst/go-microservice-prisma-postgresql/router"
@@ -53,6 +54,16 @@ func main() {
 		logger.Fatal("Error loading .env file", zap.Error(err))
 	}
 
+	//NOTE - RabbitMQ connection
+	rabbitMqConnection, err := amqp091.Dial(os.Getenv("MQ_HOST"))
+	if err != nil {
+		panic(err)
+	}
+	rabbitMqConnection.Close()
+
+	fmt.Println("Successfully connected to RabbitMQ")
+
+	//NOTE - Connect to database
 	logger.Info("Connecting to database...")
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -71,7 +82,7 @@ func main() {
 		Logger: logger,
 	}
 
-	// Start server
+	//NOTE - Start server
 	err = app.Serve()
 	if err != nil {
 		logger.Fatal("Failed to start server", zap.Error(err))
