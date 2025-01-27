@@ -1,0 +1,115 @@
+basePath: /api
+host: localhost:7000
+info:
+  contact: {}
+  description: A microservice for managing Event Service with Prisma and PostgreSQL
+  title: Event Service API Docs
+  version: 1.0.0
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Adds a new user to the database
+      parameters:
+      - description: User Data
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new user
+      tags:
+      - users
+  /users/all:
+    get:
+      description: Retrieves all users from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all users
+      tags:
+      - users
+  /users/byId/{id}:
+    get:
+      description: Retrieves a user by ID from the database
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a user by ID
+      tags:
+      - users
+  /users/delete/{id}:
+    delete:
+      description: Deletes a user from the database
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a user
+      tags:
+      - users
+  /users/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Updates a user's information in the database
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User Data
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a user
+      tags:
+      - users
+swagger: "2.0"
